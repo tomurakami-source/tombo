@@ -1,5 +1,6 @@
 import Hero from "@/components/Hero";
 import LiveInfo from "@/components/LiveInfo";
+import LiveArchive from "@/components/LiveArchive";
 import YouTubeSection from "@/components/YouTube";
 import Discography from "@/components/Discography";
 import LyricsQuote from "@/components/LyricsQuote";
@@ -29,6 +30,9 @@ export default function Home() {
         <LyricsQuote />
         <FadeIn>
           <TwitterTimeline />
+        </FadeIn>
+        <FadeIn>
+          <LiveArchive />
         </FadeIn>
         <FadeIn>
           <Bio />
