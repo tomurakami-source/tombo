@@ -1,7 +1,6 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { getCurrentLive } from "@/lib/lives";
 
 export type ReservationInput = {
   name: string;
@@ -24,11 +23,9 @@ export async function submitReservation(
     return { success: false, error: "枚数が不正です" };
   }
 
-  const live = getCurrentLive();
-
-  // GAS エンドポイントへ通知
+  // GAS エンドポイントへ通知（ライブ情報取得なし）
   const gasUrl = process.env.GAS_WEBHOOK_URL;
-  if (gasUrl && live) {
+  if (gasUrl) {
     try {
       await fetch(gasUrl, {
         method: "POST",
@@ -36,8 +33,6 @@ export async function submitReservation(
         body: JSON.stringify({
           name: name.trim(),
           count,
-          date: live.label,
-          venue: live.venue,
           submittedAt: new Date().toLocaleString("ja-JP", {
             timeZone: "Asia/Tokyo",
           }),
