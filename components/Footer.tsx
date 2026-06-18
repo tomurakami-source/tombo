@@ -18,20 +18,20 @@ export default function Footer() {
             X (Twitter)
           </a>
           <a
-            href="https://www.instagram.com/the_tonbo_bunch/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-[var(--font-sans-mod)] text-xs tracking-[0.2em] text-[#a89880] transition-colors hover:text-[#f97316]"
-          >
-            Instagram
-          </a>
-          <a
             href="https://www.tiktok.com/@thetonbobunch"
             target="_blank"
             rel="noopener noreferrer"
             className="font-[var(--font-sans-mod)] text-xs tracking-[0.2em] text-[#a89880] transition-colors hover:text-[#f97316]"
           >
             TikTok
+          </a>
+          <a
+            href="https://www.instagram.com/the_tonbo_bunch/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-[var(--font-sans-mod)] text-xs tracking-[0.2em] text-[#a89880] transition-colors hover:text-[#f97316]"
+          >
+            Instagram
           </a>
           <a
             href="https://youtu.be/kQqYu2FCxfo"

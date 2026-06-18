@@ -1,9 +1,24 @@
 "use client";
 
 const MEMBERS = [
-  { role: "Vo / Gt", name: "カミジョウ", desc: "CRACK BANQUET、C.メアリー&15を経て2021年始動。古き良き日本のロックと新解釈のロックンロールを志向。" },
-  { role: "Dr", name: "トッティ", desc: "カミジョウとバーで意気投合し結成に至る。グルーヴを体現するドラマー。" },
-  { role: "Ba", name: "サポート", desc: "サポートメンバーを含む3ピース編成で活動。" },
+  {
+    role: "Vo / Gt",
+    name: "カミジョウ",
+    desc: "CRACK BANQUET、C.メアリー&15を経て2021年始動。古き良き日本のロックと新解釈のロックンロールを志向。",
+    photo: null,
+  },
+  {
+    role: "Dr",
+    name: "トッティ",
+    desc: "カミジョウとバーで意気投合し結成に至る。グルーヴを体現するドラマー。",
+    photo: null,
+  },
+  {
+    role: "Ba",
+    name: "サポート",
+    desc: "サポートメンバーを含む3ピース編成で活動。",
+    photo: null,
+  },
 ];
 
 export default function Bio() {
@@ -44,17 +59,35 @@ export default function Bio() {
           {MEMBERS.map((m) => (
             <div
               key={m.name}
-              className="border border-[#f97316]/20 p-6 transition-all duration-300 hover:border-[#f97316]/60 hover:bg-[#0a0f1e]"
+              className="border border-[#f97316]/20 transition-all duration-300 hover:border-[#f97316]/60 hover:bg-[#0a0f1e] overflow-hidden"
             >
-              <p className="mb-1 font-[var(--font-sans-mod)] text-xs tracking-[0.3em] text-[#f97316]">
-                {m.role}
-              </p>
-              <p className="mb-3 font-[var(--font-serif-ja)] text-lg font-bold text-[#f5f0e8]">
-                {m.name}
-              </p>
-              <p className="font-[var(--font-serif-ja)] text-xs leading-relaxed text-[#a89880]">
-                {m.desc}
-              </p>
+              {/* Photo placeholder */}
+              {m.photo ? (
+                <div className="aspect-square overflow-hidden bg-[#0a0f1e]">
+                  <img
+                    src={m.photo}
+                    alt={m.name}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+              ) : (
+                <div className="aspect-square bg-[#0a0f1e]/50 flex items-center justify-center">
+                  <span className="text-xs text-[#a89880]/40">Photo coming soon</span>
+                </div>
+              )}
+
+              {/* Info */}
+              <div className="p-6">
+                <p className="mb-1 font-[var(--font-sans-mod)] text-xs tracking-[0.3em] text-[#f97316]">
+                  {m.role}
+                </p>
+                <p className="mb-3 font-[var(--font-serif-ja)] text-lg font-bold text-[#f5f0e8]">
+                  {m.name}
+                </p>
+                <p className="font-[var(--font-serif-ja)] text-xs leading-relaxed text-[#a89880]">
+                  {m.desc}
+                </p>
+              </div>
             </div>
           ))}
         </div>

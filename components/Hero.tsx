@@ -55,10 +55,10 @@ export default function Hero() {
         {/* Band name */}
         <h1
           className="glitch-text mb-6 font-[var(--font-sans-mod)] text-5xl font-black tracking-tight text-[#f5f0e8] md:text-7xl lg:text-8xl fade-in-up"
-          data-text="THE TONBO BUNCH"
+          data-text="The Tonbo Bunch"
           style={{ animationDelay: "0.4s", opacity: 0 }}
         >
-          THE TONBO BUNCH
+          The Tonbo Bunch
         </h1>
 
         {/* Tagline */}

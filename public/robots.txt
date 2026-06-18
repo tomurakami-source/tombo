@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /.next/
+Disallow: /api/
+
+Sitemap: https://tombo-iota.vercel.app/sitemap.xml
+
+# クローリングの頻度を指定（オプション）
+Crawl-delay: 1

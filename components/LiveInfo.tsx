@@ -3,20 +3,15 @@
 import { useState, useEffect } from "react";
 
 const LIVE_DATA = {
-  date: "2026年5月24日（日）",
+  date: "2026年7月12日（日）",
   venue: "新大久保 CLUB Voice",
   address: "東京都新宿区百人町1-5-1 メトロビルB1",
-  openTime: "OPEN 17:00",
-  startTime: "START 17:30",
+  openTime: "TIME未定",
+  startTime: null,
   charge: "¥3,000 + 1drink ¥600",
-  targetDate: "2026-05-24T17:00:00+09:00",
+  targetDate: "2026-07-12T00:00:00+09:00",
   lineup: [
-    "The tonbo Bunch",
-    "ならみちwith同級生",
-    "シリケッツ",
-    "mouse-unit",
-    "アベカワズ（静岡）",
-    "ダンガンブラザーズ",
+    "The Tonbo Bunch",
   ],
   reserveUrl: "/reserve",
 };
@@ -114,7 +109,9 @@ export default function LiveInfo() {
                     <div className="flex gap-3">
                       <dt className="w-20 shrink-0 text-[#f97316]">TIME</dt>
                       <dd className="text-[#f5f0e8]">
-                        {LIVE_DATA.openTime} / {LIVE_DATA.startTime}
+                        {LIVE_DATA.startTime
+                          ? `${LIVE_DATA.openTime} / ${LIVE_DATA.startTime}`
+                          : LIVE_DATA.openTime}
                       </dd>
                     </div>
                     <div className="flex gap-3">
