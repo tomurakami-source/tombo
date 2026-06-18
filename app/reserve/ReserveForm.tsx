@@ -10,13 +10,14 @@ type Props = {
   liveVenue: string;
 };
 
-async function notifyReservation(name: string, count: number, liveLabel: string) {
+async function notifyReservation(name: string, email: string, count: number, liveLabel: string) {
   try {
     await fetch("/api/reserve", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         name,
+        email,
         count,
         liveLabel,
         submittedAt: new Date().toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" }),
@@ -33,25 +34,38 @@ const DISCOUNT = 500;
 export default function ReserveForm({ liveLabel, liveVenue }: Props) {
   const [step, setStep] = useState<Step>("form");
   const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [count, setCount] = useState(1);
   const [nameError, setNameError] = useState("");
+  const [emailError, setEmailError] = useState("");
 
   const discounted = (PRICE - DISCOUNT) * count;
 
   function handleConfirm(e: React.FormEvent) {
     e.preventDefault();
+    let hasError = false;
+
     if (!name.trim()) {
       setNameError("お名前を入力してください");
-      return;
+      hasError = true;
     }
+    if (!email.trim()) {
+      setEmailError("メールアドレスを入力してください");
+      hasError = true;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setEmailError("正しいメールアドレスを入力してください");
+      hasError = true;
+    }
+    if (hasError) return;
+
     setNameError("");
+    setEmailError("");
     setStep("confirm");
   }
 
   if (step === "complete") {
     return (
       <div className="mx-auto max-w-xl">
-        {/* Check mark */}
         <div className="mb-10 flex flex-col items-center text-center">
           <div className="mb-6 flex h-20 w-20 items-center justify-center border-2 border-[#f97316]">
             <svg className="h-10 w-10 text-[#f97316]" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
@@ -69,19 +83,19 @@ export default function ReserveForm({ liveLabel, liveVenue }: Props) {
           </p>
         </div>
 
-        {/* 予約内容 */}
         <div className="mb-6 border border-[#f97316]/20 bg-[#0a0f1e] p-6">
           <p className="mb-4 font-[var(--font-sans-mod)] text-xs tracking-[0.3em] text-[#f97316]">予約内容</p>
           <dl className="space-y-3 text-sm">
             {[
               { label: "お名前", value: `${name} 様` },
+              { label: "メール", value: email },
               { label: "枚数", value: `${count} 枚` },
               { label: "当日お支払い", value: `¥${discounted.toLocaleString()} + 1drink ¥600` },
               { label: "支払方法", value: "当日受付にて現金" },
             ].map(({ label, value }) => (
               <div key={label} className="flex gap-4">
                 <dt className="w-28 shrink-0 text-[#f97316]">{label}</dt>
-                <dd className="text-[#f5f0e8]">{value}</dd>
+                <dd className="text-[#f5f0e8] break-all">{value}</dd>
               </div>
             ))}
           </dl>
@@ -116,12 +130,13 @@ export default function ReserveForm({ liveLabel, liveVenue }: Props) {
           <dl className="mb-10 space-y-4">
             {[
               { label: "お名前", value: `${name} 様` },
+              { label: "メール", value: email },
               { label: "枚数", value: `${count} 枚` },
               { label: "当日お支払い", value: `¥${discounted.toLocaleString()} + 1drink` },
             ].map(({ label, value }) => (
               <div key={label} className="flex gap-4 text-sm">
                 <dt className="w-32 shrink-0 text-[#f97316]">{label}</dt>
-                <dd className="text-[#f5f0e8]">{value}</dd>
+                <dd className="text-[#f5f0e8] break-all">{value}</dd>
               </div>
             ))}
           </dl>
@@ -137,7 +152,7 @@ export default function ReserveForm({ liveLabel, liveVenue }: Props) {
             <button
               type="button"
               onClick={async () => {
-                await notifyReservation(name, count, liveLabel);
+                await notifyReservation(name, email, count, liveLabel);
                 setStep("complete");
               }}
               className="btn-reserve flex-1 bg-[#f97316] py-4 font-[var(--font-sans-mod)] text-sm font-black tracking-[0.2em] text-[#020617] uppercase transition-all duration-300 hover:bg-[#ea6c0a] active:scale-95"
@@ -178,6 +193,28 @@ export default function ReserveForm({ liveLabel, liveVenue }: Props) {
             />
             {nameError && (
               <p className="mt-2 text-xs text-red-400" role="alert">{nameError}</p>
+            )}
+          </div>
+
+          {/* Email */}
+          <div className="mb-8">
+            <label htmlFor="email" className="mb-2 block font-[var(--font-sans-mod)] text-xs tracking-[0.2em] text-[#f97316]">
+              メールアドレス <span aria-hidden="true">*</span>
+            </label>
+            <input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                if (e.target.value.trim()) setEmailError("");
+              }}
+              placeholder="example@email.com"
+              autoComplete="email"
+              className="w-full border border-[#f97316]/30 bg-[#020617] px-4 py-4 font-[var(--font-sans-mod)] text-base text-[#f5f0e8] placeholder-[#a89880]/40 outline-none transition-colors focus:border-[#f97316]"
+            />
+            {emailError && (
+              <p className="mt-2 text-xs text-red-400" role="alert">{emailError}</p>
             )}
           </div>
 
