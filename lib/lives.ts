@@ -7,13 +7,18 @@ export type LivePost = {
   date: string;
   label: string;
   venue: string;
+  address?: string;
+  openTime?: string;
+  startTime?: string | null;
+  price?: number;
+  discount?: number;
   photos: string[];
   content: string;
 };
 
 const LIVES_DIR = path.join(process.cwd(), "content/lives");
 
-export function getAllLives(): LivePost[] {
+function loadAllLives(): LivePost[] {
   if (!fs.existsSync(LIVES_DIR)) return [];
 
   return fs
@@ -28,9 +33,28 @@ export function getAllLives(): LivePost[] {
         date: data.date ?? slug,
         label: data.label ?? slug,
         venue: data.venue ?? "",
+        address: data.address,
+        openTime: data.openTime,
+        startTime: data.startTime,
+        price: data.price,
+        discount: data.discount,
         photos: data.photos ?? [],
         content: content.trim(),
       };
     })
     .sort((a, b) => (a.date > b.date ? -1 : 1));
+}
+
+export function getCurrentLive(): LivePost | null {
+  const lives = loadAllLives();
+  return lives.length > 0 ? lives[0] : null;
+}
+
+export function getArchivedLives(): LivePost[] {
+  const lives = loadAllLives();
+  return lives.slice(1);
+}
+
+export function getAllLives(): LivePost[] {
+  return loadAllLives();
 }

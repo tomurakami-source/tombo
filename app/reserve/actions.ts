@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { getCurrentLive } from "@/lib/lives";
 
 export type ReservationInput = {
   name: string;
@@ -23,9 +24,11 @@ export async function submitReservation(
     return { success: false, error: "枚数が不正です" };
   }
 
+  const live = getCurrentLive();
+
   // GAS エンドポイントへ通知
   const gasUrl = process.env.GAS_WEBHOOK_URL;
-  if (gasUrl) {
+  if (gasUrl && live) {
     try {
       await fetch(gasUrl, {
         method: "POST",
@@ -33,8 +36,8 @@ export async function submitReservation(
         body: JSON.stringify({
           name: name.trim(),
           count,
-          date: "2026年5月24日（日）",
-          venue: "新大久保 CLUB Voice",
+          date: live.label,
+          venue: live.venue,
           submittedAt: new Date().toLocaleString("ja-JP", {
             timeZone: "Asia/Tokyo",
           }),

@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
+import { getCurrentLive } from "@/lib/lives";
 
 export const metadata: Metadata = {
-  title: "予約完了 | THE TONBO BUNCH",
+  title: "予約完了 | The Tonbo Bunch",
 };
 
 const LINE_ADD_URL = "https://line.me/R/ti/p/@XXXXXXXXX"; // 公式アカウント開設後に差し替え
@@ -16,7 +17,11 @@ export default async function CompletePage({
   const { name, count } = await searchParams;
   const displayName = name ?? "お客様";
   const displayCount = Number(count ?? 1);
-  const discounted = (3000 - 500) * displayCount;
+
+  const live = getCurrentLive();
+  const price = live?.price || 3000;
+  const discount = live?.discount || 500;
+  const discounted = (price - discount) * displayCount;
 
   return (
     <main className="min-h-screen bg-[#020617] px-4 py-16">
@@ -42,7 +47,7 @@ export default async function CompletePage({
             {displayName} 様 / {displayCount} 枚
           </p>
           <p className="mt-1 font-[var(--font-serif-ja)] text-sm text-[#a89880]">
-            2026年5月24日（日）｜新大久保 CLUB Voice
+            {live?.label || "日程未定"}｜{live?.venue || "会場未定"}
           </p>
         </div>
 
