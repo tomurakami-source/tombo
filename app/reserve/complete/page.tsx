@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { getCurrentLive } from "@/lib/lives";
 
 export const dynamic = "force-dynamic";
 
@@ -9,36 +8,27 @@ export const metadata: Metadata = {
   title: "予約完了 | The Tonbo Bunch",
 };
 
-const LINE_ADD_URL = "https://line.me/R/ti/p/@XXXXXXXXX"; // 公式アカウント開設後に差し替え
+const LINE_ADD_URL = "https://line.me/R/ti/p/@XXXXXXXXX";
 
-export default async function CompletePage({
+interface SearchParams {
+  name?: string;
+  count?: string;
+}
+
+export default function CompletePage({
   searchParams,
 }: {
-  searchParams: Promise<{ name?: string; count?: string }>;
+  searchParams: SearchParams;
 }) {
-  try {
-    const params = await searchParams;
-    const name = params?.name || "";
-    const count = params?.count ? parseInt(params.count as string, 10) : 1;
+  const name = searchParams.name ? decodeURIComponent(searchParams.name) : "";
+  const count = searchParams.count ? parseInt(searchParams.count, 10) : 1;
 
-    const displayName = name ? String(name) : "お客様";
-    const displayCount = Math.max(1, Math.min(6, isNaN(count) ? 1 : count));
+  const displayName = name || "お客様";
+  const displayCount = Math.max(1, Math.min(6, count));
 
-    let price = 3000;
-    let discount = 500;
-    let liveLabel = "ライブ日程";
-    let liveVenue = "会場";
-
-    try {
-      const live = getCurrentLive();
-      if (live?.price) price = live.price;
-      if (live?.discount) discount = live.discount;
-      if (live?.label) liveLabel = live.label;
-      if (live?.venue) liveVenue = live.venue;
-    } catch {
-      // ライブ情報取得失敗時はデフォルト値を使用
-    }
-    const discounted = (price - discount) * displayCount;
+  const price = 3000;
+  const discount = 500;
+  const discounted = (price - discount) * displayCount;
 
   return (
     <main className="min-h-screen bg-[#020617] px-4 py-16">
@@ -64,7 +54,7 @@ export default async function CompletePage({
             {displayName} 様 / {displayCount} 枚
           </p>
           <p className="mt-1 font-[var(--font-serif-ja)] text-sm text-[#a89880]">
-            {liveLabel}｜{liveVenue}
+            2026年7月12日（日）｜新大久保 CLUB Voice
           </p>
         </div>
 
@@ -166,23 +156,5 @@ export default async function CompletePage({
         </div>
       </div>
     </main>
-    );
-  } catch (error) {
-    console.error("Complete page error:", error);
-    return (
-      <main className="min-h-screen bg-[#020617] px-4 py-16">
-        <div className="mx-auto max-w-xl text-center py-16">
-          <p className="font-[var(--font-serif-ja)] text-[#f5f0e8] mb-4">
-            ページの読み込みに失敗しました
-          </p>
-          <Link
-            href="/"
-            className="font-[var(--font-sans-mod)] text-xs tracking-[0.3em] text-[#a89880] transition-colors hover:text-[#f97316]"
-          >
-            ← TOPに戻る
-          </Link>
-        </div>
-      </main>
-    );
-  }
+  );
 }

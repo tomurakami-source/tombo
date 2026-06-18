@@ -14,40 +14,25 @@ export type ReservationResult =
 export async function submitReservation(
   input: ReservationInput
 ): Promise<ReservationResult> {
-  const { name, count } = input;
+  try {
+    const { name, count } = input;
 
-  if (!name.trim()) {
-    return { success: false, error: "お名前を入力してください" };
-  }
-  if (count < 1 || count > 6) {
-    return { success: false, error: "枚数が不正です" };
-  }
-
-  // GAS エンドポイントへ通知（ライブ情報取得なし）
-  const gasUrl = process.env.GAS_WEBHOOK_URL;
-  if (gasUrl) {
-    try {
-      await fetch(gasUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: name.trim(),
-          count,
-          submittedAt: new Date().toLocaleString("ja-JP", {
-            timeZone: "Asia/Tokyo",
-          }),
-        }),
-      });
-    } catch (e) {
-      // 通知失敗は予約フローを止めない（ログのみ）
-      console.error("GAS notification failed:", e);
+    if (!name || !name.trim()) {
+      return { success: false, error: "お名前を入力してください" };
     }
-  }
+    if (!count || count < 1 || count > 6) {
+      return { success: false, error: "枚数が不正です" };
+    }
 
-  // 完了ページへリダイレクト（URLパラメータで名前と枚数を渡す）
-  const params = new URLSearchParams({
-    name: name.trim(),
-    count: String(count),
-  });
-  redirect(`/reserve/complete?${params.toString()}`);
+    const encodedName = encodeURIComponent(name.trim());
+    const redirectUrl = `/reserve/complete?name=${encodedName}&count=${count}`;
+
+    redirect(redirectUrl);
+  } catch (error) {
+    console.error("Reservation error:", error);
+    if (error instanceof Error && error.message.includes("NEXT_REDIRECT")) {
+      throw error;
+    }
+    return { success: false, error: "予約処理に失敗しました" };
+  }
 }
