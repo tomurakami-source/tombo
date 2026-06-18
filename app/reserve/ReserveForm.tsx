@@ -10,7 +10,7 @@ type Props = {
   liveVenue: string;
 };
 
-async function notifyReservation(name: string, email: string, count: number, liveLabel: string) {
+async function notifyReservation(name: string, email: string, count: number, liveLabel: string, liveVenue: string) {
   try {
     await fetch("/api/reserve", {
       method: "POST",
@@ -20,6 +20,7 @@ async function notifyReservation(name: string, email: string, count: number, liv
         email,
         count,
         liveLabel,
+        liveVenue,
         submittedAt: new Date().toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" }),
       }),
     });
@@ -152,7 +153,7 @@ export default function ReserveForm({ liveLabel, liveVenue }: Props) {
             <button
               type="button"
               onClick={async () => {
-                await notifyReservation(name, email, count, liveLabel);
+                await notifyReservation(name, email, count, liveLabel, liveVenue);
                 setStep("complete");
               }}
               className="btn-reserve flex-1 bg-[#f97316] py-4 font-[var(--font-sans-mod)] text-sm font-black tracking-[0.2em] text-[#020617] uppercase transition-all duration-300 hover:bg-[#ea6c0a] active:scale-95"
