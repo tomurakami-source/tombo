@@ -3,6 +3,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { getCurrentLive } from "@/lib/lives";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "予約完了 | The Tonbo Bunch",
 };
@@ -14,14 +16,18 @@ export default async function CompletePage({
 }: {
   searchParams: Promise<{ name?: string; count?: string }>;
 }) {
-  const { name, count } = await searchParams;
-  const displayName = name ?? "お客様";
-  const displayCount = Number(count ?? 1);
+  try {
+    const params = await searchParams;
+    const name = params.name || "";
+    const count = params.count ? parseInt(params.count, 10) : 1;
 
-  const live = getCurrentLive();
-  const price = live?.price || 3000;
-  const discount = live?.discount || 500;
-  const discounted = (price - discount) * displayCount;
+    const displayName = name || "お客様";
+    const displayCount = Math.max(1, Math.min(6, count));
+
+    const live = getCurrentLive();
+    const price = live?.price || 3000;
+    const discount = live?.discount || 500;
+    const discounted = (price - discount) * displayCount;
 
   return (
     <main className="min-h-screen bg-[#020617] px-4 py-16">
@@ -149,5 +155,23 @@ export default async function CompletePage({
         </div>
       </div>
     </main>
-  );
+    );
+  } catch (error) {
+    console.error("Complete page error:", error);
+    return (
+      <main className="min-h-screen bg-[#020617] px-4 py-16">
+        <div className="mx-auto max-w-xl text-center py-16">
+          <p className="font-[var(--font-serif-ja)] text-[#f5f0e8] mb-4">
+            ページの読み込みに失敗しました
+          </p>
+          <Link
+            href="/"
+            className="font-[var(--font-sans-mod)] text-xs tracking-[0.3em] text-[#a89880] transition-colors hover:text-[#f97316]"
+          >
+            ← TOPに戻る
+          </Link>
+        </div>
+      </main>
+    );
+  }
 }
