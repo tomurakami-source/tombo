@@ -10,6 +10,23 @@ type Props = {
   liveVenue: string;
 };
 
+async function notifyReservation(name: string, count: number, liveLabel: string) {
+  try {
+    await fetch("/api/reserve", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name,
+        count,
+        liveLabel,
+        submittedAt: new Date().toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" }),
+      }),
+    });
+  } catch {
+    // 通知失敗は予約フローを止めない
+  }
+}
+
 const PRICE = 3000;
 const DISCOUNT = 500;
 
@@ -119,7 +136,10 @@ export default function ReserveForm({ liveLabel, liveVenue }: Props) {
             </button>
             <button
               type="button"
-              onClick={() => setStep("complete")}
+              onClick={async () => {
+                await notifyReservation(name, count, liveLabel);
+                setStep("complete");
+              }}
               className="btn-reserve flex-1 bg-[#f97316] py-4 font-[var(--font-sans-mod)] text-sm font-black tracking-[0.2em] text-[#020617] uppercase transition-all duration-300 hover:bg-[#ea6c0a] active:scale-95"
             >
               この内容で予約する
