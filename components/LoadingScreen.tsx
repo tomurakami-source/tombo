@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const BAND_NAME = "THE TONBO BUNCH";
+const BAND_NAME = "The Tonbo Bunch";
 
 export default function LoadingScreen() {
   const [visible, setVisible] = useState(true);
@@ -49,12 +49,12 @@ export default function LoadingScreen() {
 
           {/* Label */}
           <motion.p
-            className="mb-4 font-[var(--font-sans-mod)] text-xs tracking-[0.5em] text-[#f97316]"
+            className="mb-4 font-[var(--font-sans-mod)] text-xs tracking-[0.5em] text-[#f97316] uppercase"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
           >
-            NEO-HEISEI SOUL ROCK
+            Neo-Heisei Soul Rock
           </motion.p>
 
           {/* Band name typewriter */}
