@@ -18,15 +18,26 @@ export default async function CompletePage({
 }) {
   try {
     const params = await searchParams;
-    const name = params.name || "";
-    const count = params.count ? parseInt(params.count, 10) : 1;
+    const name = params?.name || "";
+    const count = params?.count ? parseInt(params.count as string, 10) : 1;
 
-    const displayName = name || "お客様";
-    const displayCount = Math.max(1, Math.min(6, count));
+    const displayName = name ? String(name) : "お客様";
+    const displayCount = Math.max(1, Math.min(6, isNaN(count) ? 1 : count));
 
-    const live = getCurrentLive();
-    const price = live?.price || 3000;
-    const discount = live?.discount || 500;
+    let price = 3000;
+    let discount = 500;
+    let liveLabel = "ライブ日程";
+    let liveVenue = "会場";
+
+    try {
+      const live = getCurrentLive();
+      if (live?.price) price = live.price;
+      if (live?.discount) discount = live.discount;
+      if (live?.label) liveLabel = live.label;
+      if (live?.venue) liveVenue = live.venue;
+    } catch {
+      // ライブ情報取得失敗時はデフォルト値を使用
+    }
     const discounted = (price - discount) * displayCount;
 
   return (
@@ -53,7 +64,7 @@ export default async function CompletePage({
             {displayName} 様 / {displayCount} 枚
           </p>
           <p className="mt-1 font-[var(--font-serif-ja)] text-sm text-[#a89880]">
-            {live?.label || "日程未定"}｜{live?.venue || "会場未定"}
+            {liveLabel}｜{liveVenue}
           </p>
         </div>
 
