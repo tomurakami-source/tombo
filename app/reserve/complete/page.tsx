@@ -10,21 +10,17 @@ export const metadata: Metadata = {
 
 const LINE_ADD_URL = "https://line.me/R/ti/p/@XXXXXXXXX";
 
-interface SearchParams {
-  name?: string;
-  count?: string;
-}
-
-export default function CompletePage({
+export default async function CompletePage({
   searchParams,
 }: {
-  searchParams: SearchParams;
+  searchParams: Promise<{ name?: string; count?: string }>;
 }) {
-  const name = searchParams.name ? decodeURIComponent(searchParams.name) : "";
-  const count = searchParams.count ? parseInt(searchParams.count, 10) : 1;
+  const params = await searchParams;
+  const name = params.name ? decodeURIComponent(params.name) : "";
+  const count = params.count ? parseInt(params.count, 10) : 1;
 
   const displayName = name || "お客様";
-  const displayCount = Math.max(1, Math.min(6, count));
+  const displayCount = Math.max(1, Math.min(6, isNaN(count) ? 1 : count));
 
   const price = 3000;
   const discount = 500;
