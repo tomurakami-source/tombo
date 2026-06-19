@@ -5,19 +5,19 @@ const MEMBERS = [
     role: "Vo / Gt",
     name: "カミジョウ",
     desc: "CRACK BANQUET、C.メアリー&15を経て2021年始動。古き良き日本のロックと新解釈のロックンロールを志向。",
-    photo: null,
+    photo: "/member_kamijo.png",
   },
   {
     role: "Dr.",
     name: "ヨースケ",
     desc: "",
-    photo: null,
+    photo: "/member_yohsuke.png",
   },
   {
     role: "B.",
     name: "ヨネ助",
     desc: "",
-    photo: null,
+    photo: "/member_yonesuke.png",
   },
 ];
 
