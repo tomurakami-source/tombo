@@ -19,7 +19,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://tombo-iota.vercel.app"),
+  metadataBase: new URL("https://tombo-bunch.vercel.app"),
   title: "The Tonbo Bunch | Neo-Heisei Soul Rock",
   description:
     "平成の熱狂を、令和のビートで。新しいロックンロールの夜明け。ザ・トンボバンチ公式ライブ予約ページ。",
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     title: "The Tonbo Bunch | Neo-Heisei Soul Rock",
     description: "平成の熱狂を、令和のビートで。新しいロックンロールの夜明け。",
     type: "website",
-    url: "https://tombo-iota.vercel.app",
+    url: "https://tombo-bunch.vercel.app",
     locale: "ja_JP",
   },
   twitter: {
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: "https://tombo-iota.vercel.app",
+    canonical: "https://tombo-bunch.vercel.app",
   },
   icons: {
     icon: [
@@ -81,7 +81,7 @@ export default function RootLayout({
               "@type": "MusicGroup",
               name: "The Tonbo Bunch",
               alternateName: "ザ・トンボバンチ",
-              url: "https://tombo-iota.vercel.app",
+              url: "https://tombo-bunch.vercel.app",
               genre: "Rock",
               description: "平成の熱狂を、令和のビートで。新しいロックンロールの夜明け。",
               sameAs: [

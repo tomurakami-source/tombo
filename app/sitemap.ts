@@ -1,7 +1,7 @@
 import { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://tombo-iota.vercel.app";
+  const baseUrl = "https://tombo-bunch.vercel.app";
 
   return [
     {
