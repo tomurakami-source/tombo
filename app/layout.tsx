@@ -20,6 +20,9 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://tombo-bunch.vercel.app"),
+  verification: {
+    google: "PHtYTI81QewHHjX8zhH5CXXGqW4cDNqapAGuK76oK3U",
+  },
   title: "The Tonbo Bunch | Neo-Heisei Soul Rock",
   description:
     "平成の熱狂を、令和のビートで。新しいロックンロールの夜明け。ザ・トンボバンチ公式ライブ予約ページ。",
