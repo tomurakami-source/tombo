@@ -8,15 +8,15 @@ const MEMBERS = [
     photo: null,
   },
   {
-    role: "Dr",
-    name: "トッティ",
-    desc: "カミジョウとバーで意気投合し結成に至る。グルーヴを体現するドラマー。",
+    role: "Dr.",
+    name: "ヨースケ",
+    desc: "",
     photo: null,
   },
   {
-    role: "Ba",
-    name: "サポート",
-    desc: "サポートメンバーを含む3ピース編成で活動。",
+    role: "B.",
+    name: "ヨネ助",
+    desc: "",
     photo: null,
   },
 ];
