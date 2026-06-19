@@ -8,16 +8,16 @@ const MEMBERS = [
     photo: "/member_kamijo.png",
   },
   {
-    role: "Dr.",
-    name: "ヨースケ",
-    desc: "",
-    photo: "/member_yohsuke.png",
-  },
-  {
     role: "B.",
     name: "ヨネ助",
     desc: "",
     photo: "/member_yonesuke.png",
+  },
+  {
+    role: "Dr.",
+    name: "ヨースケ",
+    desc: "",
+    photo: "/member_yohsuke.png",
   },
 ];
 
