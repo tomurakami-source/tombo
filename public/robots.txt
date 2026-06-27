@@ -3,7 +3,7 @@ Allow: /
 Disallow: /.next/
 Disallow: /api/
 
-Sitemap: https://tombo-bunch.vercel.app/sitemap.xml
+Sitemap: https://tombo-bunch.m-boogie.com/sitemap.xml
 
 # クローリングの頻度を指定（オプション）
 Crawl-delay: 1
